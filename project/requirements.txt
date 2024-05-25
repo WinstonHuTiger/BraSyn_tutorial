@@ -1,0 +1,15 @@
+typer==0.9.0
+torch>=1.9.0
+torchvision>=0.10.0
+dominate>=2.4.0
+visdom>=0.1.8.8
+packaging
+GPUtil>=1.4.0
+ray[tune]
+tensorboard
+scikit-learn
+nibabel
+tqdm
+matplotlib
+blitz-bayesian-pytorch
+scikit-image

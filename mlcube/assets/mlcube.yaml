@@ -1,0 +1,31 @@
+name: missing_modality
+description: mlcube for missing modality challenge
+authors:
+ - {name: Your Name}
+
+platform:
+  accelerator_count: 1
+
+docker:
+  # Image name
+  image: docker.synapse.org/syn52344189/missing_modality:weak_version_1
+  # Docker build context relative to $MLCUBE_ROOT. Default is `build`.
+  build_context: "../project"
+  # Docker file name within docker build context, default is `Dockerfile`.
+  build_file: "Dockerfile"
+  gpu_args: --gpus=all
+
+tasks:
+  infer:
+  # Computes predictions on input data
+    parameters: 
+      inputs: {
+        data_path: <whatever>,
+        
+        parameters_file: parameters.yaml,
+        # Feel free to include other files required for inference.
+        # These files MUST go inside the additional_files path.
+        # e.g. model weights
+        weights: additional_files/weights
+        }
+      outputs: {output_path: {type: directory, default: <whatever>}}

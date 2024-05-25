@@ -1,0 +1,140 @@
+SIT(
+  (layers): ModuleList(
+    (0): Sequential(
+      (0): Conv3d(128, 64, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+      (1): DenseShortut(
+        (block1): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+        (norm1): Sequential(
+          (0): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+          (1): ReLU(inplace=True)
+        )
+        (block2): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+        (norm2): Sequential(
+          (0): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+          (1): ReLU(inplace=True)
+        )
+        (block3): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+        (norm3): Sequential(
+          (0): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+          (1): ReLU(inplace=True)
+        )
+      )
+      (2): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+      (3): ReLU(inplace=True)
+      (4): DenseShortut(
+        (block1): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+        (norm1): Sequential(
+          (0): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+          (1): ReLU(inplace=True)
+        )
+        (block2): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+        (norm2): Sequential(
+          (0): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+          (1): ReLU(inplace=True)
+        )
+        (block3): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+        (norm3): Sequential(
+          (0): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+          (1): ReLU(inplace=True)
+        )
+      )
+      (5): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+      (6): ReLU(inplace=True)
+      (7): ConvTranspose3d(64, 8, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), output_padding=(1, 1, 1))
+      (8): InstanceNorm3d(8, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+      (9): ReLU(inplace=True)
+    )
+    (1): Sequential(
+      (0): Conv3d(128, 64, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+      (1): DenseShortut(
+        (block1): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+        (norm1): Sequential(
+          (0): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+          (1): ReLU(inplace=True)
+        )
+        (block2): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+        (norm2): Sequential(
+          (0): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+          (1): ReLU(inplace=True)
+        )
+        (block3): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+        (norm3): Sequential(
+          (0): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+          (1): ReLU(inplace=True)
+        )
+      )
+      (2): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+      (3): ReLU(inplace=True)
+      (4): ConvTranspose3d(64, 64, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), output_padding=(1, 1, 1))
+      (5): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+      (6): ReLU(inplace=True)
+    )
+    (2): Sequential(
+      (0): DenseShortut(
+        (block1): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+        (norm1): Sequential(
+          (0): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+          (1): ReLU(inplace=True)
+        )
+        (block2): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+        (norm2): Sequential(
+          (0): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+          (1): ReLU(inplace=True)
+        )
+        (block3): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+        (norm3): Sequential(
+          (0): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+          (1): ReLU(inplace=True)
+        )
+      )
+      (1): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+      (2): ReLU(inplace=True)
+      (3): ConvTranspose3d(64, 64, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), output_padding=(1, 1, 1))
+      (4): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+      (5): ReLU(inplace=True)
+    )
+  )
+  (layers_in): Sequential(
+    (0): Sequential(
+      (0): Conv3d(3, 64, kernel_size=(4, 4, 4), stride=(2, 2, 2), padding=(1, 1, 1))
+      (1): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+      (2): ReLU(inplace=True)
+    )
+    (1): Sequential(
+      (0): Conv3d(64, 64, kernel_size=(4, 4, 4), stride=(2, 2, 2), padding=(1, 1, 1))
+      (1): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+      (2): ReLU(inplace=True)
+    )
+    (2): Sequential(
+      (0): Conv3d(64, 64, kernel_size=(4, 4, 4), stride=(2, 2, 2), padding=(1, 1, 1))
+      (1): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+      (2): ReLU(inplace=True)
+    )
+  )
+  (weightedSum): ModuleList()
+  (out): Sequential(
+    (0): InstanceNorm3d(8, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (1): ReLU(inplace=True)
+    (2): Conv3d(8, 1, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+    (3): Sigmoid()
+  )
+)
+[Network G] Total number of parameters : 2.118 M
+NLayerDiscriminator(
+  (model): Sequential(
+    (0): Conv3d(4, 64, kernel_size=(4, 4, 4), stride=(1, 1, 1), padding=(1, 1, 1))
+    (1): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (2): LeakyReLU(negative_slope=0.2, inplace=True)
+    (3): Downsample(
+      (pad): ReflectionPad3d((1, 1, 1, 1, 1, 1))
+    )
+    (4): Conv3d(64, 64, kernel_size=(4, 4, 4), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+    (5): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (6): LeakyReLU(negative_slope=0.2, inplace=True)
+    (7): Conv3d(64, 64, kernel_size=(4, 4, 4), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+    (8): InstanceNorm3d(64, eps=1e-05, momentum=0.1, affine=False, track_running_stats=False)
+    (9): LeakyReLU(negative_slope=0.2, inplace=True)
+    (10): Conv3d(64, 1, kernel_size=(4, 4, 4), stride=(1, 1, 1), padding=(1, 1, 1))
+  )
+)
+[Network D] Total number of parameters : 0.545 M
