@@ -31,7 +31,7 @@ In this repo, we provide a weak 3D baseline from [Qingqiao Hu](https://winstonhu
 
 To get started, please clone this repo by:
 ```
-git clone 
+git clone https://github.com/WinstonHuTiger/BraSyn_tutorial.git
 ```
 
 ### Environment setup
@@ -137,7 +137,11 @@ Please follow the detailed [description available here](https://www.synapse.org/
 
  ## Aknowledgement
 The 3D synthesis baseline is from [2D_VAE_UDA_for_3D_sythesis](https://github.com/WinstonHuTiger/2D_VAE_UDA_for_3D_sythesis). 
+
 The 3D backbone is from [3D-MRI-style-transfer](https://github.com/KreitnerL/3D-MRI-style-transfer).
+
 The training framework is from [pytorch-CycleGAN-and-pix2pix](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
-Some utility function are from Bran's [BraSyn](https://github.com/hongweilibran/BraSyn).
+
+Some utility functions are from Bran's [BraSyn](https://github.com/hongweilibran/BraSyn).
+
 Thanks for their wonderful opensource works!!!
