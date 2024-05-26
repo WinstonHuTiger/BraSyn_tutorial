@@ -36,7 +36,7 @@ git clone https://github.com/WinstonHuTiger/BraSyn_tutorial.git
 
 ### Environment setup
 
-It is recommended to use [Mamba](https://mamba.readthedocs.io/en/latest/) for faster environment and package management compared to Anaconda. Install Mamba following the insctruction [here]((https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html)) and create a virtual environment as follows:
+It is recommended to use [Mamba](https://mamba.readthedocs.io/en/latest/) for faster environment and package management compared to Anaconda. Install Mamba following the insctruction [here](https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html) and create a virtual environment as follows:
 ```
 mamba create -n brasyn python=3.10
 mamba activate brasyn
