@@ -107,7 +107,7 @@ After the inference, you can use a pre-trained nnUnet to obtain the Dice score. 
 - Install nnUnetV2 on your machine, you can just use ```pip install nnunetv2``` to do so
 - Download the pre-trained weight we provided
 - Set the environment variable according to [the instruction here](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_variables.md)
-- Download the pre-trained weight and put the unzipped folder to where you set ```nnUNet_results``` variable.
+- Download the [pre-trained weight](https://drive.google.com/drive/folders/1dAKiXBpSQEthPZqELZ7snP2s9FIREBJk?usp=sharing) and put the unzipped folder to where you set ```nnUNet_results``` variable.
 - Please use ```Dataset137_prepocessed_brats.py``` to convert the generated missing modality and existing modality to nnunet's format (You have to change the path to where you store your results).
 - Run nnunetv2 by ```nnUNetv2_predict -i "./Dataset137_BraTS2021_test/imagesTr" -o "./outputs"  -d 137 -c 3d_fullres -f 5``` to obtain the segmentation maps.
 - Finally, you can use ```python cal_avg_dice.py``` to get average dice to evaluate your model on training dataset. 
