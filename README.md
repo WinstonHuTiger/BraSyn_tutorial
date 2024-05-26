@@ -103,8 +103,16 @@ To do the infer on your own machine, you have to do the following:
 - Change the output_path in ```project/generate_missing_modality.py```
 **Note**: a **pre-trained** 3D GAN is given in path ```mlcube/workspace/additional_files/weights/your_weight_name``` and parameter file is also given in ```mlcube/workspace/parameters.yaml```
 
-After the inference, you can use a pre-trained nnUnet to obtain the Dice score (if you save your generated missing modality back to data_path), we will add the instruction latter here. 
-
+After the inference, you can use a pre-trained nnUnet to obtain the Dice score. We can provide a pretrained weight for you to do the inference. There are several steps you should follow:
+- Install nnUnetV2 on your machine, you can just use ```pip install nnunetv2``` to do so
+- Download the pre-trained weight we provided
+- Set the environment variable according to [the instruction here](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_variables.md)
+- Download the pre-trained weight and put the unzipped folder to where you set ```nnUNet_results```
+- Please use ```Dataset137_prepocessed_brats.py``` to convert the generated missing modality and existing modality to nnunet's format. (You have to change the path to where you store your results.)
+- Run nnunetv2 by ```nnUNetv2_predict -i "./Dataset137_BraTS2021_test/imagesTr" -o "./outputs"  -d 137 -c 3d_fullres -f 5```
+- Finally, you can use ```python cal_avg_dice.py``` to get average dice to evaluate your model on Training Dataset. 
+   
+  
 ## Building MLCube
 
 The detailed document for building model MLCube can be found [here](https://docs.medperf.org/mlcubes/mlcube_models/).
