@@ -57,7 +57,7 @@ def save_to_output(x, affine,  A1_path, output_target_path, test_target_modality
         # print(out_path)
         nib.save(img,  out_path )
 
-def infer( data_path, output_path, parameters_file, weights):
+def infer(data_path, output_path, parameters_file, weights, save_back = False):
      # get test options
     # hard-code some parameters for test
     # opt = GenMissingOptions().parse()  # get test options
@@ -116,7 +116,23 @@ def infer( data_path, output_path, parameters_file, weights):
             # print(data['test_target_modality'])
             affine_matrix = data['affine']
             # print(output_cube.shape)
-            save_to_output(output_cube,
+            if save_back:
+                folder_path = None 
+                if 'folder_path' in data.keys():
+                    folder_path = data['folder_path'][0]
+                else:
+                    a_path = data['A_paths'][0]
+                    temp = a_path.split(os.path.sep)
+                    folder_path = os.path.join(*temp[:-1])
+                # print(folder_path[0])
+                    # folder_path = os.path.join(data['A_paths'][0], "..")
+                save_to_output(output_cube,
+                           affine_matrix , 
+                           data['A_paths'][0], 
+                           folder_path, data['test_target_modality'][0],
+                           for_segmentation = opt.for_segmentation)
+            else:
+                save_to_output(output_cube,
                            affine_matrix , 
                            data['A_paths'][0], 
                            opt.output_dir, data['test_target_modality'][0],
@@ -124,3 +140,13 @@ def infer( data_path, output_path, parameters_file, weights):
             
     else:
         pass
+    
+if __name__ == "__main__":
+    import yaml
+    data_path = "pseudo_val_set"
+    output_path = "pseudo_val_output"
+    weights = "mlcube/workspace/additional_files/weights/"
+    parameters_file = "mlcube/workspace/parameters.yaml"
+    with open(parameters_file) as f:
+        parameters = yaml.safe_load(f)
+    infer(data_path, output_path, parameters, weights, save_back= True)

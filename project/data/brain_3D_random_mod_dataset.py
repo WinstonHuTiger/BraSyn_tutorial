@@ -67,6 +67,10 @@ class brain3DRandomModDataset(BaseDataset):
         
         self.data_root = os.path.join(opt.dataroot, self.dataset_name)
         self.image_folders  = os.listdir(self.data_root)
+        for folder in self.image_folders:
+            if not os.path.isdir(os.path.join(self.data_root, folder)):
+                self.image_folders.remove(folder)
+        
         self.with_mask = opt.get_mask
         
         setDimensions(3)
@@ -150,7 +154,7 @@ class brain3DRandomModDataset(BaseDataset):
         # print("A shape: ", A.shape)
         # print("B shape: ", B.shape)
         # print("target modality: ", target_modality)
-        A1_path = os.path.join( self.data_root ,vol_folder, vol_names[A_keys[0]])
+        A1_path = os.path.join( self.data_root, vol_folder, vol_names[A_keys[0]])
         
         mask = -1
         if self.with_mask and mask_path is not None:
@@ -170,6 +174,7 @@ class brain3DRandomModDataset(BaseDataset):
                     'affine': affine,
                     'axis_code': "IPL",
                     'A_paths': A1_path, 
+                    "folder_path": os.path.join( self.data_root, vol_folder),
                     'test_target_modality': test_target_modality
                     }
 

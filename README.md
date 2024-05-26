@@ -23,10 +23,13 @@ BraTS-GLI-01666-000
 └── BraTS-GLI-01666-000-t2w.nii.gz
 ```
 
-Tools like [itk-snap](http://www.itksnap.org/pmwiki/pmwiki.php?n=Main.HomePage) are useful to view each modality and segmentation map provided. 
+Tools like [itk-snap](http://www.itksnap.org/pmwiki/pmwiki.php?n=Main.HomePage) are useful to view each modality and segmentation map provided. After you view the input images, you can find the dimension of the images are all $256 \times 256 \times 256$, which contains too much empty space and is too big to train on memory limited GPUs. Therefore, we need to crop the images in latter process.
 
 ## The weak 3D baseline
-In this repo, we provide a weak 3D baseline from [Qingqiao Hu](https://winstonhutiger.github.io/) from last year's BraSyn challenge. 
+
+The baseline is built on [2D_VAE_UDA_for_3D_sythesis](https://github.com/WinstonHuTiger/2D_VAE_UDA_for_3D_sythesis) with a few tweaks from last year's BraSyn challenge The baseline model simulates a scenario where a random modality is missing during training, enhancing the model's ability to handle missing modalities during inference.
+
+Compared with the original implementation, a new dataloader named ```brain_3D_random_mod_dataset.py``` is added to ```data``` folder. Input 3D volumes are manually cropped into sub-volumes with size $144 \times 192 \times 192$. For inference purpose, ```generate_missing_modality_options.py``` is added to ```option``` folder and some utility functions in ```generate_missing_modality.py``` are included to pad the output volumes for MLCube production. 
 
 
 To get started, please clone this repo by:
@@ -60,7 +63,7 @@ or using conda:
 conda install pytorch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 pytorch-cuda=11.8 -c pytorch -c nvidia
 ```
 
-The minimum Pytorch version requirement is 1.9.0. If you want to install other version, please refer to [Pytorch installing docs](https://pytorch.org/get-started/previous-versions/).
+The minimum Pytorch version requirement is 1.9.0. If you want to install other version (your CUDA version is much lower than 11.8), please refer to [Pytorch installing docs](https://pytorch.org/get-started/previous-versions/). 
 
 
 Then please install other dependencies by the following command:
@@ -70,12 +73,8 @@ pip install -r requirements.txt
 ```
 
 ### Training
-The baseline is built on [2D_VAE_UDA_for_3D_sythesis](https://github.com/WinstonHuTiger/2D_VAE_UDA_for_3D_sythesis) with a few tweaks. The baseline model simulates a scenario where a random modality is missing during training, enhancing the model's ability to handle missing modalities during inference.
 
-Compared with the original implementation, a new dataloader named ```brain_3D_random_mod_dataset.py``` is added to ```data``` folder. Input 3D volumes are manually cropped into sub-volumes with size $144 \times 192 \times 192$. For inference purpose, ```generate_missing_modality_options.py``` is added to ```option``` folder and some utility functions in ```generate_missing_modality.py``` are included to pad the output volumes for MLCube production. 
-
-
-To get started the baseline training, you first have to start the visdom server on your machine by ```visdom``` and then you can modify the following command:
+To start training the baseline, you first have to start the visdom server on your machine by ```visdom``` and then you can modify the following command:
 
 ```
 python train.py \
@@ -89,6 +88,22 @@ python train.py \
      --batch_size 1 --gpu_ids 0 
 ```
 **Note**: the minimum GPU memory requirement is 24GB and the training time is about 28 hours on a single 4090 RTX GPU.
+After the training, you have able to view Structural Similarity (SSIM) Index and Peak Signal-to-Noise Ratio (PSNR)  metric in the output. SSIM indicates the structural similarity, such as tissue similarity in our case here. As for the segmentation score, we will discuss it in [inference](#inference). You are also welcome to include other metrics in your own research. 
+
+### Inference
+The inference pipeline can be summarized as following:
+<image src="assets/inference_flow_chart.png" />
+
+According the submission requirements, images are stored in a folder and model reads the processed images with cropped dimension and generate the missing modality for the given input images. After the missing modality is generated, post-processed algorithm pads the images back to original dimension.
+
+To do the infer on your own machine, you have to do the following:
+- Run ```drop_modality.py``` on your own machine to generate random missing modality MRI inpout sequence. 
+- Change the data_path in ```project/generate_missing_modality.py```
+- If you want to save the generated modality back to the data_path, change ```save_back``` in ```infer()``` function to ```True```
+- Change the output_path in ```project/generate_missing_modality.py```
+**Note**: a **pre-trained** 3D GAN is given in path ```mlcube/workspace/additional_files/weights/your_weight_name``` and parameter file is also given in ```mlcube/workspace/parameters.yaml```
+
+After the inference, you can use a pre-trained nnUnet to obtain the Dice score (if you save your generated missing modality back to data_path), we will add the instruction latter here. 
 
 ## Building MLCube
 
