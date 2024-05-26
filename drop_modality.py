@@ -6,7 +6,7 @@ import numpy as np
 import shutil
 
 # the target validation set foler and the new folder, please replace it with yours
-val_set_folder = 'ASNR-MICCAI-BraTS2023-GLI-Challenge-ValidationData' 
+val_set_folder = 'ASNR-MICCAI-BraTS2023-GLI-Challenge-TrainingData' 
 val_set_missing = 'pseudo_val_set'
 
 if not os.path.exists(val_set_missing):
