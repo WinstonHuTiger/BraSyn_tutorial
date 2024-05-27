@@ -57,7 +57,7 @@ def convert_folder_with_preds_back_to_BraTS_labeling_convention(input_folder: st
 
 
 if __name__ == '__main__':
-    brats_data_dir = '/home/winston/dev/missing_modality_mlcube/pseudo_val_set'
+    brats_data_dir = './pseudo_val_set'
 
     task_id = 137
     task_name = "BraTS2021_test"
