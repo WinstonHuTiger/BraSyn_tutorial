@@ -97,10 +97,11 @@ The inference pipeline can be summarized as following:
 According the submission requirements, images are stored in a folder and model reads the processed images with cropped dimension and generate the missing modality for the given input images. After the missing modality is generated, post-processed algorithm pads the images back to original dimension.
 
 To infer on your own machine, you have to do the following things:
-- Run ```drop_modality.py``` on your own machine to generate random missing modality MRI input sequence. 
+- Run ```python drop_modality.py``` on your own machine to generate random missing modality MRI input sequence and please remember to change the ```val_set_folder``` to where you store your training dataset. 
 - Change the ```data_path``` in ```project/generate_missing_modality.py```
 - If you want to save the generated modality back to the data_path, change ```save_back``` in ```infer()``` function to ```True```
 - Change the ```output_path``` in ```project/generate_missing_modality.py```
+- Run ```python project/generate_missing_modality.py``` to generate the missing modality.
 **Note**: a **pre-trained** 3D GAN is given in ```mlcube/workspace/additional_files/weights/your_weight_name``` and parameter file is also included, ```mlcube/workspace/parameters.yaml```
 
 After the inference, you can use a pre-trained nnUnet to obtain the Dice score. We provide a pretrained weight for segmentation. There are several steps you should follow:
