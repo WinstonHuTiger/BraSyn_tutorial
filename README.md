@@ -96,21 +96,20 @@ The inference pipeline can be summarized as following:
 
 According the submission requirements, images are stored in a folder and model reads the processed images with cropped dimension and generate the missing modality for the given input images. After the missing modality is generated, post-processed algorithm pads the images back to original dimension.
 
-To do the infer on your own machine, you have to do the following:
-- Run ```drop_modality.py``` on your own machine to generate random missing modality MRI inpout sequence. 
-- Change the data_path in ```project/generate_missing_modality.py```
+To infer on your own machine, you have to do the following things:
+- Run ```drop_modality.py``` on your own machine to generate random missing modality MRI input sequence. 
+- Change the ```data_path``` in ```project/generate_missing_modality.py```
 - If you want to save the generated modality back to the data_path, change ```save_back``` in ```infer()``` function to ```True```
-- Change the output_path in ```project/generate_missing_modality.py```
-**Note**: a **pre-trained** 3D GAN is given in path ```mlcube/workspace/additional_files/weights/your_weight_name``` and parameter file is also given in ```mlcube/workspace/parameters.yaml```
+- Change the ```output_path``` in ```project/generate_missing_modality.py```
+**Note**: a **pre-trained** 3D GAN is given in ```mlcube/workspace/additional_files/weights/your_weight_name``` and parameter file is also included, ```mlcube/workspace/parameters.yaml```
 
-After the inference, you can use a pre-trained nnUnet to obtain the Dice score. We can provide a pretrained weight for you to do the inference. There are several steps you should follow:
+After the inference, you can use a pre-trained nnUnet to obtain the Dice score. We provide a pretrained weight for segmentation. There are several steps you should follow:
 - Install nnUnetV2 on your machine, you can just use ```pip install nnunetv2``` to do so.
 - Set the environment variable according to [the instruction here](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_variables.md).
 - Download the [pre-trained weight](https://drive.google.com/drive/folders/1dAKiXBpSQEthPZqELZ7snP2s9FIREBJk?usp=sharing) and put the unzipped folder to where you set ```nnUNet_results``` variable.
-- Please use ```Dataset137_prepocessed_brats.py``` to convert the generated missing modality and existing modality to nnunet's format (You have to change the path to where you store your results).
+- Please use ```Dataset137_prepocessed_brats.py``` to convert the generated missing modality and existing modality to nnunet's format (You have to change the path, ```brats_data_dir```, to where you store your MRI sequences).
 - Run nnunetv2 by ```nnUNetv2_predict -i "./Dataset137_BraTS2021_test/imagesTr" -o "./outputs"  -d 137 -c 3d_fullres -f 5``` to obtain the segmentation maps.
-- Finally, you can use ```python cal_avg_dice.py``` to get average dice to evaluate your model on training dataset. 
-   
+- Finally, you can use ```python cal_avg_dice.py``` to calculate the average Dice score to evaluate your model on training dataset.
   
 ## Building MLCube
 
