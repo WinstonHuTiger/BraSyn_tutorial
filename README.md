@@ -110,7 +110,7 @@ After the inference, you can use a pre-trained nnUnet to obtain the Dice score. 
 - Download the [pre-trained weight](https://drive.google.com/drive/folders/1dAKiXBpSQEthPZqELZ7snP2s9FIREBJk?usp=sharing) and put the unzipped folder to where you set ```nnUNet_results``` variable.
 - Please use ```Dataset137_prepocessed_brats.py``` to convert the generated missing modality and existing modality to nnunet's format (You have to change the path, ```brats_data_dir```, to where you store your MRI sequences).
 - Run nnunetv2 by ```nnUNetv2_predict -i "./Dataset137_BraTS2021_test/imagesTr" -o "./outputs"  -d 137 -c 3d_fullres -f 5``` to obtain the segmentation maps.
-- Finally, you can use ```python cal_avg_dice.py``` to calculate the average Dice score to evaluate your model on training dataset.
+- Finally, you can use ```python cal_avg_dice.py``` to calculate the average Dice score, in order to evaluate your model on training dataset.
   
 ## Building MLCube
 
