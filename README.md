@@ -1,5 +1,5 @@
 # BraSyn tutorial
-This is the tutorial built for beginner to quickly get hands on the BraSyn Challenge. The goal of this challenge is to generate one missing modality for a given MRI sequence. As for the goal of this tutorial is to help you get started and get comfortable with the challenge. Our primary tool is a simple 3D Generative Adversarial Network (GAN) known as pix2pix, but you are encouraged to experiment with more advanced models like Diffusion Models in your research.
+This is the tutorial built for beginner to quickly get hands on the [BraSyn Challenge](https://www.synapse.org/#!Synapse:syn53708249/wiki/627507). The goal of this challenge is to generate one missing modality for a given MRI sequence. As for the goal of this tutorial is to help you get started and get comfortable with the challenge. Our primary tool is a simple 3D Generative Adversarial Network (GAN) known as pix2pix, but you are encouraged to experiment with more advanced models like Diffusion Models in your research.
 
 ## Dataset format 
 Once you've downloaded and extracted the dataset from Synapse, take some time to understand its structure. Your folders for training and validation should look like this after extraction:
@@ -13,7 +13,7 @@ ASNR-MICCAI-BraTS2023-GLI-Challenge-TrainingData
 ... 
 ```
 
-For each folder, there are 4 modalities available and one segmentation map:
+For each folder, there are 4 modalities available and one segmentation map (ending with ```*seg.nii.gz```):
 ```
 BraTS-GLI-01666-000
 ├── BraTS-GLI-01666-000-seg.nii.gz
@@ -88,7 +88,7 @@ python train.py \
      --batch_size 1 --gpu_ids 0 
 ```
 **Note**: the minimum GPU memory requirement is 24GB and the training time is about 28 hours on a single 4090 RTX GPU.
-After the training, you have able to view Structural Similarity (SSIM) Index and Peak Signal-to-Noise Ratio (PSNR)  metric in the output. SSIM indicates the structural similarity, such as tissue similarity in our case here. As for the segmentation score, we will discuss it in [inference](#inference). You are also welcome to include other metrics in your own research. 
+After the training, you have able to view Structural Similarity (SSIM) Index and Peak Signal-to-Noise Ratio (PSNR)  metric in the output. SSIM indicates the structural similarity, such as tissue similarity in our case here. As for the segmentation (Dice) score, we will discuss it in [inference](#inference). You are also welcome to include other metrics in your own research. 
 
 ### Inference
 The inference pipeline can be summarized as following:
@@ -109,7 +109,7 @@ After the inference, you can use a pre-trained nnUnet to obtain the Dice score. 
 - Set the environment variable according to [the instruction here](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_variables.md).
 - Download the [pre-trained weight](https://drive.google.com/drive/folders/1dAKiXBpSQEthPZqELZ7snP2s9FIREBJk?usp=sharing) and put the unzipped folder to where you set ```nnUNet_results``` variable.
 - Please use ```Dataset137_prepocessed_brats.py``` to convert the generated missing modality and existing modality to nnunet's format (You have to change the path, ```brats_data_dir```, to where you store your MRI sequences).
-- Run nnunetv2 by ```nnUNetv2_predict -i "./Dataset137_BraTS2021_test/imagesTr" -o "./outputs"  -d 137 -c 3d_fullres -f 5``` to obtain the segmentation maps.
+- Run nnunetv2 by ```nnUNetv2_predict -i "./Dataset137_BraTS2021_test/imagesTr" -o "./outputs"  -d 137 -c 3d_fullres -f 5``` to obtain the predicted segmentation maps.
 - Finally, you can use ```python cal_avg_dice.py``` to calculate the average Dice score, in order to evaluate your model on training dataset.
   
 ## Building MLCube
