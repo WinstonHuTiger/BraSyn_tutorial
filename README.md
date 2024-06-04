@@ -25,12 +25,9 @@ BraTS-GLI-01666-000
 
 Tools like [itk-snap](http://www.itksnap.org/pmwiki/pmwiki.php?n=Main.HomePage) are useful to view each modality and segmentation map provided. After you view the input images, you can find the dimension of the images are all $256 \times 256 \times 256$, which contains too much empty space and is too big to train on memory limited GPUs. Therefore, we need to crop the images in latter process.
 
-## The weak 3D baseline
+## The simple 3D baseline
 
-The baseline is built on [2D_VAE_UDA_for_3D_sythesis](https://github.com/WinstonHuTiger/2D_VAE_UDA_for_3D_sythesis) with a few tweaks from last year's BraSyn challenge. The baseline model simulates a scenario where a random modality is missing during training, enhancing the model's ability to handle missing modalities during inference.
-
-Compared with the original implementation, a new dataloader named ```brain_3D_random_mod_dataset.py``` is added to ```data``` folder. Input 3D volumes are manually cropped into sub-volumes with size $144 \times 192 \times 192$. For inference purpose, ```generate_missing_modality_options.py``` is added to ```option``` folder and some utility functions in ```generate_missing_modality.py``` are included to pad the output volumes for MLCube production. 
-
+The baseline model simulates a scenario where a random modality is missing during training, enhancing the model's ability to handle missing modalities during inference.
 
 To get started, please clone this repo by:
 ```
@@ -72,29 +69,11 @@ cd project
 pip install -r requirements.txt
 ```
 
-### Training
-
-To start training the baseline, you first have to start the visdom server on your machine by ```visdom``` and then you can modify the following command:
-
-```
-python train.py \
-     --dataroot your_dataset_root_path \
-     --name your_checkpoint_name \
-     --model pix2pix --direction AtoB --dataset_mode brain_3D_random_mod \
-     --B_modality random \
-     --n_epochs 50 --n_epochs_decay 70 \
-     --lr 0.0001 --input_nc 3 --output_nc 1 \
-     --paired --netG sit --netD n_layers --n_layers_D 1 \
-     --batch_size 1 --gpu_ids 0 
-```
-**Note**: the minimum GPU memory requirement is 24GB and the training time is about 28 hours on a single 4090 RTX GPU.
-After the training, you have able to view Structural Similarity (SSIM) Index and Peak Signal-to-Noise Ratio (PSNR)  metric in the output. SSIM indicates the structural similarity, such as tissue similarity in our case here. As for the segmentation (Dice) score, we will discuss it in [inference](#inference). You are also welcome to include other metrics in your own research. 
-
 ### Inference
 The inference pipeline can be summarized as following:
 <image src="assets/inference_flow_chart.png" />
 
-According the submission requirements, images are stored in a folder and model reads the processed images with cropped dimension and generate the missing modality for the given input images. After the missing modality is generated, post-processed algorithm pads the images back to original dimension.
+According the submission requirements, images are stored in a folder and model reads the processed images with cropped dimension ($144 \times 192 \times 192$) and generate the missing modality for the given input images. After the missing modality is generated, post-processed algorithm pads the images back to original dimension ($256 \times 256 \times 256 $).
 
 To infer on your own machine, you have to do the following things:
 - Run ```python drop_modality.py``` on your own machine to generate random missing modality MRI input sequence and please remember to change the ```val_set_folder``` to where you store your training dataset. 
@@ -111,7 +90,7 @@ After the inference, you can use a pre-trained nnUnet to obtain the Dice score. 
 - Please use ```Dataset137_prepocessed_brats.py``` to convert the generated missing modality and existing modality to nnunet's format (You have to change the path, ```brats_data_dir```, to where you store your MRI sequences).
 - Run nnunetv2 by ```nnUNetv2_predict -i "./Dataset137_BraTS2021_test/imagesTr" -o "./outputs"  -d 137 -c 3d_fullres -f 5``` to obtain the predicted segmentation maps.
 - Finally, you can use ```python cal_avg_dice.py``` to calculate the average Dice score, in order to evaluate your model on training dataset.
-  
+
 ## Building MLCube
 
 The detailed document for building model MLCube can be found [here](https://docs.medperf.org/mlcubes/mlcube_models/).
@@ -136,6 +115,27 @@ to build your MLCube on your machine.
 Please follow the detailed [description available here](https://www.synapse.org/#!Synapse:syn53708249/wiki/627758) to submit your MLCube.
 
  **Note**: **Do not forget** to test the compatibility before submission.
+
+ ## Training the baseline
+The whole framework is built on [2D_VAE_UDA_for_3D_sythesis](https://github.com/WinstonHuTiger/2D_VAE_UDA_for_3D_sythesis) with a few tweaks from last year's BraSyn challenge. Compared with the original implementation, a new dataloader named ```brain_3D_random_mod_dataset.py``` is added to ```data``` folder. Input 3D volumes are manually cropped into sub-volumes with size $144 \times 192 \times 192$. For inference purpose, ```generate_missing_modality_options.py``` is added to ```option``` folder and some utility functions in ```generate_missing_modality.py``` are included to pad the output volumes for MLCube production. 
+
+
+If you are interested in training your own simple baseline model, you first have to start the visdom server on your machine by ```visdom``` and then you can modify the following command:
+
+```
+cd project/
+python train.py \
+     --dataroot your_dataset_root_path \
+     --name your_checkpoint_name \
+     --model pix2pix --direction AtoB --dataset_mode brain_3D_random_mod \
+     --B_modality random \
+     --n_epochs 50 --n_epochs_decay 70 \
+     --lr 0.0001 --input_nc 3 --output_nc 1 \
+     --paired --netG sit --netD n_layers --n_layers_D 1 \
+     --batch_size 1 --gpu_ids 0 
+```
+**Note**: the minimum GPU memory requirement is 24GB and the training time is about 28 hours on a single 4090 RTX GPU.
+After the training, you have able to view Structural Similarity (SSIM) Index and Peak Signal-to-Noise Ratio (PSNR)  metric in the output. SSIM indicates the structural similarity, such as tissue similarity in our case here. As for the segmentation (Dice) score, we will discuss it in [inference](#inference). You are also welcome to include other metrics in your own research. 
 
  ## Citation
  Please cite our work, if you find this tutorial is somehow useful.
