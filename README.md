@@ -77,19 +77,33 @@ According the submission requirements, images are stored in a folder and model r
 
 To infer on your own machine, you have to do the following things:
 - Run ```python drop_modality.py``` on your own machine to generate random missing modality MRI input sequence and please remember to change the ```val_set_folder``` to where you store your training dataset. 
-- Change the ```data_path``` in ```project/generate_missing_modality.py```
-- If you want to save the generated modality back to the data_path, change ```save_back``` in ```infer()``` function to ```True```
-- Change the ```output_path``` in ```project/generate_missing_modality.py```
+- Change the ```data_path``` in ```project/generate_missing_modality.py``` to the same as the ```val_set_missing``` in ```drop_modality.py```.
+- If you don't want to save the generated modality back to the data_path, change ```save_back``` in ```infer()``` function to ```False```
+- Change the ```output_path``` in ```project/generate_missing_modality.py```, if you did the last step. 
 - Run ```python project/generate_missing_modality.py``` to generate the missing modality.
 **Note**: a **pre-trained** 3D GAN is given in ```mlcube/workspace/additional_files/weights/your_weight_name``` and parameter file is also included, ```mlcube/workspace/parameters.yaml```
 
-After the inference, you can use a pre-trained nnUnet to obtain the Dice score. We provide a pretrained weight for segmentation. There are several steps you should follow:
+After the inference, you need to obtain a Dice coefficient in order to evaluate your model further. 
+
+**The most simple way** to do so is by using a nnUnet docker provided by us:
+```
+docker pull winstonhutiger/brasyn_nnunet:latest
+```
+Then you can just run the docker to obtain the Dice coefficient by using:
+```
+bash run_brasyn_nnunet_docker.sh
+```
+**Note**: To run this docker, you have to [install Docker](https://docs.docker.com/engine/install/) on your own machine. Please pay attention to ```$PWD/pseudo_val_set``` in ```run_brasyn_nnunet_docker.sh```, which is the path where you store your generated modality and other **three true modalities**. 
+
+<details>
+<summary>Alternatively, you can also manually obtain the Dice score without docker.</summary> We provide a pretrained nnUnet for you to do so. There are several steps you should follow:
 - Install nnUnetV2 on your machine, you can just use ```pip install nnunetv2``` to do so.
 - Set the environment variable according to [the instruction here](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_variables.md).
 - Download the [pre-trained weight](https://drive.google.com/drive/folders/1dAKiXBpSQEthPZqELZ7snP2s9FIREBJk?usp=sharing) and put the unzipped folder to where you set ```nnUNet_results``` variable.
-- Please use ```Dataset137_prepocessed_brats.py``` to convert the generated missing modality and existing modality to nnunet's format (You have to change the path, ```brats_data_dir```, to where you store your MRI sequences).
+- Please use ```Dataset137_BraTS21.py``` to convert the generated missing modality and existing modality to nnunet's format (You have to change the path, ```brats_data_dir```, to where you store your MRI sequences).
 - Run nnunetv2 by ```nnUNetv2_predict -i "./Dataset137_BraTS2021_test/imagesTr" -o "./outputs"  -d 137 -c 3d_fullres -f 5``` to obtain the predicted segmentation maps.
 - Finally, you can use ```python cal_avg_dice.py``` to calculate the average Dice score, in order to evaluate your model on training dataset.
+</details>
 
 ## Building MLCube
 
