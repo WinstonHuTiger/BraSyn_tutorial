@@ -96,7 +96,10 @@ bash run_brasyn_nnunet_docker.sh
 **Note**: To run this docker, you have to [install Docker](https://docs.docker.com/engine/install/) on your own machine. Please pay attention to ```$PWD/pseudo_val_set``` in ```run_brasyn_nnunet_docker.sh```, which is the path where you store your generated modality and other **three true modalities**. 
 
 <details>
-<summary>Alternatively, you can also manually obtain the Dice score without docker.</summary> We provide a pretrained nnUnet for you to do so. There are several steps you should follow:
+
+<summary>Alternatively, you can also manually obtain the Dice score without docker.</summary> 
+We provide a pretrained nnUnet for you to do so. There are several steps you should follow:
+
 - Install nnUnetV2 on your machine, you can just use ```pip install nnunetv2``` to do so.
 - Set the environment variable according to [the instruction here](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_variables.md).
 - Download the [pre-trained weight](https://drive.google.com/drive/folders/1dAKiXBpSQEthPZqELZ7snP2s9FIREBJk?usp=sharing) and put the unzipped folder to where you set ```nnUNet_results``` variable.
