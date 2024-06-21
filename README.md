@@ -93,7 +93,12 @@ Then you can just run the docker to obtain the Dice coefficient by using:
 ```
 bash run_brasyn_nnunet_docker.sh
 ```
-**Note**: To run this docker, you have to [install Docker](https://docs.docker.com/engine/install/) on your own machine. Please pay attention to ```$PWD/pseudo_val_set``` in ```run_brasyn_nnunet_docker.sh```, which is the path where you store your generated modality and other **three true modalities**. 
+Alternatively, you can run the ensemble version to get more robust results:
+```
+docker pull winstonhutiger/brasyn_nnunet:ensemble
+bash run_brasyn_nnunet_ensemble_docker.sh
+```
+**Note**: To run this docker, you have to [install Docker](https://docs.docker.com/engine/install/) on your own machine. Please pay attention to ```$PWD/pseudo_val_set``` in both ```bash``` scripts, which is the path where you store your generated modality and other **three true modalities**. Moreover, if you want to use post-processing in nnUnet ensemble docker, please add the ```--post``` flag after ```predict.sh```, changing the last line into  ```/bin/bash -c "bash predict.sh --post"```
 
 <details>
 
