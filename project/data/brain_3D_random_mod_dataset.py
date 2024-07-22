@@ -148,8 +148,12 @@ class brain3DRandomModDataset(BaseDataset):
                 temp = self.colorJitter(temp, no_update=True if count > 0 else False)
                 count += 1
             As.append(temp)
-        
+
+        # fix the bug with affine matrix
         affine = affines[A_keys[0]]
+        targ_ornt = nib.orientations.axcodes2ornt("IPL")
+        affine = nib.orientations.ornt_transform(affine, targ_ornt)
+        
         A = torch.concat(As, dim=0)
         # print("A shape: ", A.shape)
         # print("B shape: ", B.shape)
