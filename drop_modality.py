@@ -16,6 +16,7 @@ if not os.path.exists(val_set_missing):
 np.random.seed(123456)  # fix random seed 
 modality_list = ['t1c', 't1n', 't2f', 't2w']  # the list of modalities in the given folder
 folder_list = os.listdir(val_set_folder)
+folder_list.sort()
 drop_index = np.random.randint(0, 4, size=len(folder_list))
 
 
