@@ -121,22 +121,25 @@ Please follow the [document here](https://docs.medperf.org/getting_started/insta
 
 The files needed to build model MLCube are all included in this repo already.
 
+
  **All you need to do**:
  - Change the image name and author name in ```mlcube/mlcube.yaml```
  - Change the name in ```mlcube/workspace/parameters.yaml``` to match the **weight folder' name**
  - Move your trained weight folder to the ```mlcube/workspace/additional_files``` folder
  - Move the ```checkpoint``` folder out of the ```project``` folder. 
 
-After those two steps, you can use:
+After these steps, you can use:
 ```
 mlcube configure -Pdocker.build_strategy=always
 ```
 to build your MLCube on your machine. 
 
+**Note: the logic for testing MLCube using [MedPref](https://www.medperf.org) and testing your model using nnunet provided in this repo is different.** In this repo, we copy the other three modalities and the generated modality to a subfolder (with patient name), within the main folder ```pseudo_val_set``` for the nnunet to segment. However, while using [MedPref](https://www.medperf.org) for MLCube submission, you only save the generated modality to a folder **without subfolders**. 
+
 ## Submitting MLCube
 Please follow the detailed [description available here](https://www.synapse.org/#!Synapse:syn53708249/wiki/627758) to submit your MLCube.
 
- **Note**: **Do not forget** to test the compatibility before submission.
+ **Note**: **Do not forget** to test the compatibility using [MedPref](https://www.medperf.org) before submission.
 
  ## Training the baseline
 The whole framework is built on [2D_VAE_UDA_for_3D_sythesis](https://github.com/WinstonHuTiger/2D_VAE_UDA_for_3D_sythesis) with a few tweaks from last year's BraSyn challenge. Compared with the original implementation, a new dataloader named ```brain_3D_random_mod_dataset.py``` is added to ```data``` folder. Input 3D volumes are manually cropped into sub-volumes with size $144 \times 192 \times 192$. For inference purpose, ```generate_missing_modality_options.py``` is added to ```option``` folder and some utility functions in ```generate_missing_modality.py``` are included to pad the output volumes for MLCube production. 
