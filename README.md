@@ -160,7 +160,7 @@ python train.py \
      --batch_size 1 --gpu_ids 0 
 ```
 **Note**: the minimum GPU memory requirement is 24GB and the training time is about 28 hours on a single 4090 RTX GPU.
-After the training, you have able to view Structural Similarity (SSIM) Index and Peak Signal-to-Noise Ratio (PSNR)  metric in the output. SSIM indicates the structural similarity, such as tissue similarity in our case here. As for the segmentation (Dice) score, we will discuss it in [inference](#inference). You are also welcome to include other metrics in your own research. 
+After the training, you are able to view Structural Similarity (SSIM) Index and Peak Signal-to-Noise Ratio (PSNR)  metric in the output. SSIM indicates the structural similarity, such as tissue similarity in our case here. As for the segmentation (Dice) score, we have discussed it in [inference](#inference). You are also welcome to include other metrics in your own research. 
 
  ## Citation
  Please cite our work, if you find this tutorial is somehow useful.
